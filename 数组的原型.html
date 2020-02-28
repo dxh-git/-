@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // let arr = new Array();
+        // arr =[11,55,33,22]
+        let arr = [11,22,55,66]
+       
+            Array.prototype.getMax = function(){
+                max = this[0]
+             for(let i=1;i<this.length;i++){
+                if(max<this[i]){
+                    max = this[i]
+                }
+            }
+            return max
+            }
+            console.log(arr.getMax());
+            
+            console.log(Array.prototype);
+            
+            
+    </script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            width: 300px;
+            /* margin:0 auto; */
+            position: relative;
+        }
+
+        textarea {
+            width: 100%;
+            resize: none;
+        }
+
+        ul li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            position: absolute;
+            right: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <textarea name="" id="" cols="30" rows="10" placeholder="请输入要发表的内容"></textarea>
+        <br>
+        <input type="button" value="发布" class="button">
+        <ul>
+            <li>包治百病 <a href="#">删除</a></li>
+        </ul>
+    </div>
+    <script>
+        var text = document.querySelector('textarea')
+        var but = document.querySelector('.button')
+        var ul = document.querySelector('ul')
+        var a = document.querySelector('ul li a')
+        // 注册点击事件
+        but.addEventListener('click',function(){
+            let content = text.value
+            // 创建li
+            let li  = document.createElement('li')
+            // 吧获取的内容添加到li中
+            li.innerHTML = `
+            <li>${content} <a href="#">删除</a></li>
+            `
+            // 把有内容的li添加到ul第一个位置
+            ul.insertBefore(li,ul.children[0])
+            // 清空tex里的内容
+            text.value = ''
+        })
+      
+    // 易错点 因为document.querySelector('ul li a')获取不到动态添加的元素，所以给a注册删除事件删除不了后添加的元素
+    // a.addEventListener('click',function(){
+    //     this.parentNode.remove()
+    // })
+         
+        //  利用事件委托给ul注册删除事件
+        ul.addEventListener("click",function(e){
+            console.log(e.target.nodeName);
+            if(e.target.nodeName == "A"){
+                e.target.parentNode.parentNode.removeChild(e.target.parentNode)  
+            }
+        })
+        // 注册键盘事件
+        document.onkeyup = function(e){
+        if(e.keyCode == '13'){
+            let content = text.value
+            // 创建li
+            let li  = document.createElement('li')
+            // 吧获取的内容添加到li中
+            li.innerHTML = `
+            <li>${content} <a href="#">删除</a></li>
+            `
+            // 把有内容的li添加到ul第一个位置
+            ul.insertBefore(li,ul.children[0])
+            // 清空tex里的内容
+            text.value = ''
+        }            
+        }
+
+    </script>
+
+
+</body>
+
+</html>

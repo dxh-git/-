@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>图片放大镜效果</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .main {
+            width: 350px;
+            height: 350px;
+            margin: 100px;
+            border: 1px solid #ccc;
+            position: relative;
+        }
+
+        .big {
+            width: 400px;
+            height: 400px;
+            position: absolute;
+            top: 0;
+            left: 360px;
+            border: 1px solid #ccc;
+            overflow: hidden;
+            display: none;
+        }
+
+        .mask {
+            width: 175px;
+            height: 175px;
+            background: rgba(255, 255, 0, 0.4);
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            /* 把鼠标指针换成移动图标 */
+            cursor: move;
+            display: none;
+        }
+
+        .small {
+            position: relative;
+            height: 350px;
+            width: 350px;
+        }
+
+        .active .mask,
+        .active .big {
+            display: block;
+        }
+
+        .big img {
+            /* 相对定位：相对自己原本的位置定位，原来的位置保留的 */
+            position: absolute;
+        }
+
+        body {
+            width: 5000px;
+            height: 5000px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 整个大盒子 -->
+    <div class="main" id="main">
+        <div class="small">
+            <!--小图-->
+            <img alt="" class="smallImg" src="images/iphoneX.jpg" width="350" />
+            <!-- 遮挡层,黄色的小方块 -->
+            <div class="mask"></div>
+        </div>
+        <!--大层-->
+        <div class="big">
+            <!--大图-->
+            <img alt="" class="bigImg" src="images/iphoneX.jpg" width="800" />
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+    /**
+        步骤：
+            1. 查找元素
+                1.1 查找 main 总分区
+            
+                1.2 查找 small 盒子
+                1.3 查找 small 盒子内的 img 小图片
+                1.4 查找 mask 遮罩层
+                1.5 查找 big 盒子
+                1.6 查找 big 盒子内的 img 大图片
+
+            2. 鼠标移入 main 的时候
+                2.1 显示 遮罩盒子
+                2.2 显示 大图分区
+
+            3. 鼠标移出 main 的时候
+                3.1 隐藏 遮罩盒子
+                3.2 隐藏 大图分区
+
+            4. 鼠标在 main 移动的时候 !!!
+                4.1 遮罩盒子 跟随 鼠标移动
+                4.2 遮罩盒子 在 鼠标中心 处理
+                4.3 遮罩盒子 在 分区边界 内移动处理
+                4.4 大图片 <反向> <按比例> 跟随 鼠标移动
+
+            注意. 获取元素偏移值和宽高
+                1. 获取 分区 的 水平，垂直偏移值
+                2. 获取 分区 的 宽度，高度
+                3. 获取 遮罩盒子 的 宽度，高度 (隐藏的盒子无法获取宽高)
+                4. 获取 大图片 的 宽度，高度 (隐藏的盒子无法获取宽高)
+    */
+
+    // 获取元素
+    let main = document.querySelector('.main');
+    let small = document.querySelector('.small');
+    let smallImg = document.querySelector('.smallImg');
+    let mask = document.querySelector('.mask');
+    let big = document.querySelector('.big');
+    let bigImg = document.querySelector('.bigImg');
+    let body = document.querySelector("body");
+    // 注册移入事件
+    small.onmouseenter = function () {
+        mask.style.display = "block";
+        big.style.display = "block";
+    }
+    //    获取鼠标的page的坐标
+    main.onmousemove = function (e) {
+        // console.log(e.pageX);
+        // console.log(e.pageY);
+        let x = e.pageX - 100 - 175 / 2;
+        let y = e.pageY - 100 - 175 / 2;
+        if (x < 0) {
+            x = 0
+        }
+        if (x > 175) x = 175;
+        if (y > 175) y = 175;
+        if (y < 0) y = 0;
+        mask.style.left = x + "px"
+        mask.style.top = y + "px";
+        bigImg.style.left = -x * (800 / 350) + 'px'
+        bigImg.style.top = -y * (800 / 350) + 'px'
+
+    }
+
+    // 注册移除事件
+    small.onmouseleave = function () {
+        mask.style.display = "none";
+        big.style.display = "none";
+    }
+</script>

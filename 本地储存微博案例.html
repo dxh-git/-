@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .weibo {
+            width: 600px;
+            border: 1px solid #ccc;
+            margin: 100px auto;
+            padding: 10px;
+        }
+
+        .weibo-text {
+            width: 100%;
+            resize: none;
+            outline: none;
+
+        }
+
+        .weibo-but {
+            width: 80px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            background: #f90;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            outline: none;
+
+        }
+
+        .weibo-list li {
+            padding-top: 10px;
+            list-style: none;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            overflow: hidden;
+        }
+
+        .weibo-list li p {
+            float: left;
+        }
+
+        .weibo-list li span {
+            float: right;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="weibo">
+        <textarea name="" id="" cols="30" rows="10" class="weibo-text"></textarea>
+        <br>
+        <input type="button" value="发布" class="weibo-but">
+        <input type="button" value="删除" class="weibo-delete">
+        <ul class="weibo-list">
+            <li>
+                <p>p标签内容</p>
+                <span>删除</span>
+            </li>
+            <li>
+                <p>p标签内容</p>
+                <span>删除</span>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        //    获取元素
+        let text = document.querySelector('.weibo-text')
+        let but = document.querySelector('.weibo-but')
+        let list = document.querySelector('.weibo-list')
+        //清空本地存储 
+        let clear = document.querySelector('.weibo-delete')
+        clear.addEventListener('click',function(){
+            localStorage.clear()
+            // 清空后重新渲染页面
+            renderList()
+        })
+        // 渲染微博列表函数
+        let renderList = function(){
+            let data = JSON.parse(localStorage.getItem('weibo')) ||[] //得到是一个数组
+            // 2. 根据本地存储数据映射成新的数组
+            let weiboHTMLStr = data.map(function(item,index){
+                return `
+                <li>
+                <p onclick = "xiugai(${index})" id = p-${index}>${item.content}</p>
+                <span onclick = "del(${index})">删除</span>
+                </li> 
+                `
+            })
+            // 再把列表内容渲染到页面上
+            list.innerHTML = weiboHTMLStr.join('')
+        }
+
+        renderList()
+    //  点击按钮时候添加一条数据到本地存储
+    but.addEventListener('click',function(){
+        let content = text.value.trim();
+        if(content == ''){
+            alert('请输入内容')
+        }else{
+            let data = JSON.parse(localStorage.getItem('weibo')) || [];
+            data.unshift({
+                content:content,
+                time:+new Date()
+            })
+        localStorage.setItem('weibo',JSON.stringify(data))
+
+        }
+        text.value = ''
+        renderList()
+    })
+    // 删除功能
+    function del(index){
+        console.log(index);
+        let data = JSON.parse(localStorage.getItem('weibo')) || [];
+    // 删除索引为index向
+        data.splice(index,1)
+        // 把删除了的数据存回去
+        localStorage.setItem('weibo',JSON.stringify(data))
+        // 重新渲染页面
+    renderList()
+        
+    }
+    // 修改内容
+    function xiugai(index){
+        // 获取p
+        let p = document.querySelector(`#p-${index}`)
+        // console.dir(p); //属性contentEditable:true可以把标签改为可编辑
+        p.contentEditable = true
+        // 焦点聚焦
+        p.focus()
+        //   失去光标时候把修改后的内容存到原数据中
+       p.addEventListener('blur',function(){
+        let newP = p.innerHTML
+        let data = JSON.parse(localStorage.getItem('weibo')) || [];
+        data[index] = {
+            content:newP,
+            time:+new Date()
+        }
+        localStorage.setItem('weibo', JSON.stringify(data));
+       })
+        
+    }
+
+    </script>
+</body>
+
+</html>

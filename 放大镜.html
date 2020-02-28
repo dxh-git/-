@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+    .box1{
+        width: 350px;
+        height: 350px;
+            margin: 100px;
+            position: relative;
+        }
+     /* img{
+         width: 100%;
+         height: 100%;
+     } */
+    .box{
+        position: relative;
+        width: 350px;
+        height: 350px;
+        border: 1px solid #ccc;
+        cursor: move;
+    }
+    .box2{
+        width: 500px;
+        height: 500px;
+        border: 1px solid #ccc;
+        position: absolute;
+        display: none;
+        left: 360px;
+        overflow: hidden;
+        top: 0;
+    }
+    .box2 img{
+        position: absolute;
+        /* overflow: hidden; */
+    }
+    .huang{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 150px;
+        height: 150px;
+        display: none;
+    
+        background: rgba(255, 255, 0, 0.4);
+    }
+    </style>
+</head>
+<body>
+    <div class="box1">
+        <div class="box">
+            <img src="./images/iphoneX.jpg" alt="" width="350">
+            <div class="huang"></div>
+        </div>
+        <div class="box2">
+            <img src="./images/iphoneX.jpg" alt="">
+        </div>
+
+
+        <script>
+        let box = document.querySelector('.box');
+        let huang = document.querySelector('.huang');
+        let box2 = document.querySelector('.box2');
+        let img = document.querySelector(".box2 img")
+        // 注册移入事件
+        box.onmouseenter = function(){
+            huang.style.display = "block"
+            box2.style.display = 'block'
+
+            box.onmousemove = function(e){
+                // console.log(e);
+                let x = e.pageX-100-150/2
+                let y = e.pageY-100-150/2
+                if(x<0){
+                    x = 0
+                }
+                if(x>350-150){
+                    x = 350-150
+                }
+                if(y<0){
+                    y = 0
+                }
+                if(y>350-150){
+                    y = 350-150
+                }
+               huang.style.top = y+"px"
+               huang.style.left = x+"px"
+               img.style.left = -x*(800/350)+"px" 
+               img.style.top = -y*(800/350)+"px" 
+                
+            }
+        }
+        box.onmouseleave = function(){
+            huang.style.display = "none"
+            box2.style.display = 'none'   
+        }
+        </script>
+    </body>
+    </div>
+</html>

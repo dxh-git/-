@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 创建一个空数组
+        let stuList =[]
+        let id = 1
+
+        //0.1 创建 学员信息 构造函数
+        function createStu(name,age,gender){
+            let obj = new Object()
+            obj.id = id
+            id++
+            obj.name = name
+            obj.age = age
+            obj.gender = gender    
+            return obj   
+        }
+        // 添加默认学员
+      stuList.push(new createStu('小明',28,"true"))
+      stuList.push(new createStu('小岚',22,0))
+      stuList.push(new createStu('小华',24,"true"))
+      console.log(stuList);
+      
+    //   1主体函数   
+    function min(){
+        while(1){
+            let num = +prompt('请输入你要操作的序号：\n1.添加学员\n2.删除学员\n3.显示所有学员\n4.退出')
+        if(num ==1){
+            addStu()
+        }else if(num ==2){
+            deldteStu()
+        }else if(num ==3){
+            showList()
+        }else if(num ==4){
+            break
+        }else{
+            alert('您输入的选项有误！请重新选择！！')
+        }
+        }
+    }
+    // 自调用主体函数
+    min()
+    // 功能1添加学员
+    function addStu(){
+        let stuName = prompt('请输入姓名')
+        let stuAge = prompt('请输入年龄')
+        let stuGender = confirm("男选择确定。女选择取消")
+        // 把用户输入的信息添加到数组中
+        stuList.push(new createStu(stuName,stuAge,stuGender))
+
+    }
+    // 功能2删除学员
+    function deldteStu(){
+        let stuId = +prompt('请输入那您要删除学员的id');
+        for(let i=0 ;i <stuList.length;i++){
+            if(stuList[i].id ==stuId){
+                stuList.splice(i,1);
+            }
+        }
+    }
+    // 功能3显示学员列表
+    function showList(){
+        // alert(stuList)
+        // 新建一个数组储存数据
+        let newArr = stuList.map(item=>{
+            return `${item.id}  姓名:${item.name};  年龄:${item.age};  性别:${item.gender ? "男" :"女"}\n`
+        })
+        alert(newArr.join(''))
+    }
+    </script>
+</body>
+</html>

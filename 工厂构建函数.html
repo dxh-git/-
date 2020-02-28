@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Person(name,age){
+            this.name = name
+            this.age = age
+            // this.sayHi = sayHi
+            // this.sayHi = function(){
+            //     console.log(`自我介绍我叫${this.name}`);
+                
+            // }
+        }
+        // function sayHi(){
+        //         console.log(`自我介绍我叫${this.name}`); 
+        // }
+        // 在对象外面添加原型添加方法  对象里面色this.sayHi就可以不要了
+        Person.prototype.sayHi = function(){
+            console.log(`自我介绍${this.name}`);
+              
+        }
+        const p1 = new Person('小明',18)
+        Person.prototype.xxx = 666
+        console.log(p1.xxx);
+        // p1.sayHi()
+        console.dir(Person);
+       
+        
+        
+        
+
+    </script>
+</body>
+</html>

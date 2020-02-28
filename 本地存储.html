@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .weibo {
+            width: 600px;
+            border: 1px solid #ccc;
+            margin: 100px auto;
+            padding: 10px;
+        }
+
+        .weibo-text {
+            width: 100%;
+            resize: none;
+            outline: none;
+
+        }
+
+        .weibo-but {
+            width: 80px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            background: #f90;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            outline: none;
+
+        }
+
+        .weibo-list li {
+            padding-top: 10px;
+            list-style: none;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            overflow: hidden;
+        }
+
+        .weibo-list li p {
+            float: left;
+        }
+
+        .weibo-list li span {
+            float: right;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="weibo">
+        <textarea name="" id="" cols="30" rows="10" class="weibo-text"></textarea>
+        <br>
+        <input type="button" value="发布" class="weibo-but">
+        <ul class="weibo-list">
+            <li>
+                <p>p标签内容</p>
+                <span>删除</span>
+            </li>
+            <li>
+                <p>p标签内容</p>
+                <span>删除</span>
+            </li>
+        </ul>
+    </div>
+    <script>
+        // 获取元素
+        let text = document.querySelector('.weibo-text');
+        let but = document.querySelector('.weibo-but');
+        let list = document.querySelector('.weibo-list');
+        // 封装本地存储函数
+
+        // 清空本地存储
+        function clearDate(){
+            localStorage.clear()
+        }
+        // 保存本地存储数据
+        function saveDate(key,value){
+            localStorage.setItem(key,JSON.stringify(value))
+        }
+       saveDate('微博',[{content:569},{content:"微博内容"}])
+        // 获取本地存储数据
+        function getDate(key){
+          return  JSON.parse(localStorage.getItem(key)) ||[]
+        }
+        // console.log(getDat('微博'));
+
+        
+        // 更新本地存储数据
+        function upDate(index,value){
+            let str = getDate('微博')
+           if(str[index]){
+               str[index] = {
+                   content:value,
+                   time:+new Date()
+               }
+               saveDate('微博',str)
+           }
+            
+        }
+        // clearDate()
+        upDate(0,999)
+    </script>
+</body>
+
+</html>

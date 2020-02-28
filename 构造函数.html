@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Person(name,age){
+            this.name = name
+            this.age = age 
+
+        }
+        Person.prototype.sayHi = function(){
+            console.log(`${name}能跑`);
+            
+        }
+        // console.dir(Person.prototype.constructor=== Person );
+        // console.log(typeof Math);   //object
+        // console.log(typeof Date);   //function
+        // console.log(typeof Array);  //function
+        console.log(Array.prototype);
+        console.log(Array.prototype.__proto__ ===Object.prototype);
+        console.log(Array.prototype.__proto__.__proto__ ===null);
+        // console.log(Object.__proto__.__proto__);
+        // let arr = [11,22]
+        // console.log(arr.__proto__);
+        
+    </script>
+</body>
+</html>
